@@ -1,0 +1,31 @@
+{
+    "name": "andrwebflix/sdk-php-sociallogin",
+    "description": "SDKs para Login Social como Facebook, Google e Apple",
+    "keywords": ["api", "library", "psr-4", "sociallogin", "sdk"],
+    "homepage": "https://github.com/Webflix-Tecnologia/sdk-php-sociallogin.git",
+    "type": "library",
+    "license": "proprietary",
+    "autoload": {
+        "psr-4": {
+            "SocialLogin\\": "src/"
+        }
+    },
+    "authors": [
+        {
+            "name": "Weslley Ceresa",
+            "email": "webflix.tecnologia@gmail.com",
+            "homepage": "https://www.webflix.tec.br"
+        }
+    ],
+    "require": {
+
+    },
+    "scripts": {
+        "test": []
+    },
+    "minimum-stability": "dev",
+    "prefer-stable": true,
+    "require-dev": {
+        "victorjonsson/markdowndocs": "^1.3"
+    }
+}

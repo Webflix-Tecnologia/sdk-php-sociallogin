@@ -1,0 +1,5 @@
+/nbproject/private/
+/vendor/
+composer.lock
+examples/config.ini
+examples/AuthKey_D4FPW9GU3F.p8

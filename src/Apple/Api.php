@@ -72,12 +72,12 @@ class Api extends \SocialLogin\Core\AppleAuth {
         }
     }
 
-    public function validateToken(array $data, $nonce) {
+    public function validateToken($data, $nonce) {
         try {
             $resp = $this->http->get("auth/keys");
             $responseData = (string) $resp->getBody();
             $jwk = \Firebase\JWT\JWK::parseKeySet(json_decode($responseData, true));
-            $idToken = $data['id_token'];
+            $idToken = $data->id_token;
             $decoded = \Firebase\JWT\JWT::decode($idToken, $jwk);
             $response = [
                 "code" => 200,
@@ -93,6 +93,11 @@ class Api extends \SocialLogin\Core\AppleAuth {
             }else{
                 $response['message'] = "Token válido";
                 $response['token'] = $idToken;
+                $response['id'] = $decoded->sub;
+                $response['email'] = $decoded->email;
+                if(isset($data->name)){
+                    $response['name'] = $data->name;
+                }
             }
             return $response;
         } catch (\GuzzleHttp\Exception\ServerException $ex) {
@@ -118,12 +123,12 @@ class Api extends \SocialLogin\Core\AppleAuth {
 
     public function generateAppleClientSecret() {
         $now = time();
-        $exp   = $now + 15777000;
+        $exp   = $now + 300;//15777000;
         $payload = [
             "iss" => $this->getTeamId(),
             "iat" => $now,
             "exp" => $exp,
-            "aud" => self::APPLE_AUTH,
+            "aud" => "https://appleid.apple.com",//rtrim(self::APPLE_AUTH, '/'),
             "sub" => $this->getClientId()
         ];
         $privateKey = file_get_contents($this->getPrivateKeyPath());

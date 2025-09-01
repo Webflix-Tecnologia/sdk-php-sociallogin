@@ -13,10 +13,14 @@ $socialLogin
 
 try {
     $data = $socialLogin->generateToken($_POST['code']);
-    if(!isset($data['error'])) {
+    if(!isset($data->error)) {
+        if(isset($_POST['user'])){
+            $user = json_decode($_POST['user'], true);
+            $data->name = "{$user['name']['firstName']} {$user['name']['lastName']}";
+        }
         $result = $socialLogin->validateToken($data, $_SESSION['apple_nonce']);
         print_r($result);
     }
 }catch (\SocialLogin\Exceptions\SocialLoginException $ex) {
-    var_dump($ex);
+    print_r($ex);
 }
